@@ -1,0 +1,45 @@
+{
+  "Actions": [
+    {
+      "Icon": "stateActive",
+      "Name": "ToggleState",
+      "States": [
+        {
+          "Image": "stateInactive",
+          "TitleAlignment": "bottom",
+          "FontSize": "12"
+        },
+        {
+          "Image": "stateActive",
+          "TitleAlignment": "bottom",
+          "FontSize": "12"
+        }
+      ],
+      "SupportedInMultiActions": false,
+      "Tooltip": "This action can be checked",
+      "UUID": "dev.domnikl.togglestate.action"
+    }
+  ],
+  "SDKVersion": 2,
+  "Author": "Dominik Liebler",
+  "CodePath": "index.html",
+  "Description": "Plugin to toggle between two states for checking off items",
+  "Name": "ToggleState",
+  "Icon": "pluginIcon",
+  "URL": "https://www.elgato.com/gaming/stream-deck",
+  "PropertyInspectorPath": "property_inspector.html",
+  "Version": "1.4",
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "10.11"
+    },
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "Software": {
+    "MinimumVersion": "4.1"
+  }
+}
