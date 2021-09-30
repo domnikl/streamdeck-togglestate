@@ -9,37 +9,6 @@
       var websocket = null;
       var state = 0;
 
-      var DestinationEnum = Object.freeze({
-        HARDWARE_AND_SOFTWARE: 0,
-        HARDWARE_ONLY: 1,
-        SOFTWARE_ONLY: 2,
-      });
-
-      var toggleStateAction = {
-        type: "dev.domnikl.togglestate.action",
-
-        onKeyUp: function (context, settings, coordinates, userDesiredState) {
-          if (state == 0) {
-            this.setStateIndex(context, 1);
-          } else {
-            this.setStateIndex(context, 0);
-          }
-        },
-
-        setStateIndex: function (context, index) {
-          var json = {
-            event: "setState",
-            context: context,
-            payload: {
-              state: index,
-              target: DestinationEnum.HARDWARE_AND_SOFTWARE,
-            },
-          };
-
-          websocket.send(JSON.stringify(json));
-        },
-      };
-
       function connectElgatoStreamDeckSocket(
         inPort,
         inPluginUUID,
@@ -61,14 +30,7 @@
           var context = jsonObj["context"];
           var jsonPayload = jsonObj["payload"] || {};
 
-          if (event == "keyUp") {
-            toggleStateAction.onKeyUp(
-              context,
-              jsonPayload["settings"],
-              jsonPayload["coordinates"],
-              jsonPayload["userDesiredState"]
-            );
-          } else if (event == "sendToPlugin") {
+          if (event == "sendToPlugin") {
             if (jsonPayload.hasOwnProperty("setValue")) {
               state = jsonPayload.setValue;
             }
