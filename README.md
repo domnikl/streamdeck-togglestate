@@ -2,7 +2,9 @@
 
 An [Elgato Stream Deck](https://www.elgato.com/de/stream-deck) plugin to switch between two states to enable having checklists in your live stream production.
 
-I like to use those for everything non-tech-related, like reminding me of having a bottle of water and a cup of ready before going live.
+> I like to use those for everything non-tech-related, like reminding me of having a bottle of water and a cup of ready before going live.
+
+![a screenshot of the plugin in Stream Deck software](screenshot.png)
 
 ## Build
 
