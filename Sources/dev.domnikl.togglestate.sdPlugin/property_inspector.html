@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>dev.domnikl.togglestate PI</title>
+    <link rel="stylesheet" href="sdpi.css" />
+    <script src="common.js"></script>
+  </head>
+  <body>
+    <div class="sdpi-wrapper"></div>
+
+    <script>
+      var pluginAction = null,
+        uuid = "";
+
+      if ($SD) {
+        $SD.on("connected", (jsonObj) => {
+          uuid = jsonObj.uuid;
+
+          if (jsonObj.hasOwnProperty("actionInfo")) {
+            pluginAction = jsonObj.actionInfo["action"];
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

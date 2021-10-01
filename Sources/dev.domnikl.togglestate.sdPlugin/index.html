@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>dev.domnikl.togglestate</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <script>
+      var websocket = null;
+      var state = 0;
+
+      var DestinationEnum = Object.freeze({
+        HARDWARE_AND_SOFTWARE: 0,
+        HARDWARE_ONLY: 1,
+        SOFTWARE_ONLY: 2,
+      });
+
+      var toggleStateAction = {
+        type: "dev.domnikl.togglestate.action",
+
+        onKeyUp: function (context, settings, coordinates, userDesiredState) {
+          if (state == 0) {
+            this.setStateIndex(context, 1);
+          } else {
+            this.setStateIndex(context, 0);
+          }
+        },
+
+        setStateIndex: function (context, index) {
+          var json = {
+            event: "setState",
+            context: context,
+            payload: {
+              state: index,
+              target: DestinationEnum.HARDWARE_AND_SOFTWARE,
+            },
+          };
+
+          websocket.send(JSON.stringify(json));
+        },
+      };
+
+      function connectElgatoStreamDeckSocket(
+        inPort,
+        inPluginUUID,
+        inRegisterEvent,
+        inInfo
+      ) {
+        websocket = new WebSocket("ws://127.0.0.1:" + inPort);
+
+        websocket.onopen = function () {
+          websocket.send(
+            JSON.stringify({ event: inRegisterEvent, uuid: inPluginUUID })
+          );
+        };
+
+        websocket.onmessage = function (evt) {
+          // Received message from Stream Deck
+          var jsonObj = JSON.parse(evt.data);
+          var event = jsonObj["event"];
+          var context = jsonObj["context"];
+          var jsonPayload = jsonObj["payload"] || {};
+
+          if (event == "keyUp") {
+            toggleStateAction.onKeyUp(
+              context,
+              jsonPayload["settings"],
+              jsonPayload["coordinates"],
+              jsonPayload["userDesiredState"]
+            );
+          } else if (event == "sendToPlugin") {
+            if (jsonPayload.hasOwnProperty("setValue")) {
+              state = jsonPayload.setValue;
+            }
+          }
+        };
+
+        websocket.onclose = function () {
+          // Websocket is closed
+        };
+      }
+    </script>
+  </body>
+</html>
